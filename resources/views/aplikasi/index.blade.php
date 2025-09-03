@@ -3,51 +3,124 @@
 @section('title', 'Daftar Aplikasi - Data Aplikasi Kabupaten Madiun')
 
 @section('content')
-<!-- Hero Section -->
-<div class="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-xl shadow-lg mb-8">
-    <div class="px-8 py-12">
+<!-- Modern Hero Section -->
+<div class="gradient-bg rounded-3xl shadow-2xl mb-8 overflow-hidden relative" data-aos="fade-down">
+    <!-- Background Elements -->
+    <div class="absolute inset-0">
+        <div class="absolute -top-20 -right-20 w-40 h-40 rounded-full bg-white/10 blur-3xl"></div>
+        <div class="absolute -bottom-20 -left-20 w-40 h-40 rounded-full bg-white/10 blur-3xl"></div>
+    </div>
+    
+    <div class="relative px-8 py-16">
         <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between">
-            <div class="flex-1">
-                <h1 class="text-3xl lg:text-4xl font-bold text-white mb-4">
-                    Daftar Aplikasi
-                    <span class="block text-blue-100 text-lg font-normal mt-2">
-                        Organisasi Perangkat Daerah Kabupaten Madiun
+            <div class="flex-1" data-aos="fade-right">
+                <h1 class="text-4xl lg:text-5xl font-bold text-white mb-6">
+                    Aplikasi Digital
+                    <span class="block text-white/90 text-2xl font-normal mt-2">
+                        Kabupaten Madiun
                     </span>
                 </h1>
-                <p class="text-blue-100 text-lg leading-relaxed max-w-2xl">
+                <p class="text-white/90 text-xl leading-relaxed max-w-2xl mb-8">
                     Sistem informasi terpadu untuk mengelola dan memantau seluruh aplikasi yang digunakan oleh OPD di lingkungan Pemerintah Kabupaten Madiun.
                 </p>
-                <div class="mt-6 flex flex-wrap items-center gap-4">
-                    <div class="flex items-center bg-white/10 backdrop-blur-sm rounded-lg px-4 py-2">
-                        <svg class="w-5 h-5 text-blue-200 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                        </svg>
-                        <span class="text-white font-medium">{{ $aplikasis->total() }} Aplikasi Terdaftar</span>
+                
+                <!-- Stats Cards -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                    <div class="glass-effect rounded-2xl p-4 text-center" data-aos="zoom-in" data-aos-delay="100">
+                        <div class="text-3xl font-bold text-white">{{ $totalAplikasi }}</div>
+                        <div class="text-white/80">Total Aplikasi</div>
                     </div>
-                    <div class="flex items-center bg-white/10 backdrop-blur-sm rounded-lg px-4 py-2">
-                        <svg class="w-5 h-5 text-blue-200 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
-                        </svg>
-                        <span class="text-white font-medium">{{ App\Models\Opd::count() }} OPD Aktif</span>
+                    <div class="glass-effect rounded-2xl p-4 text-center" data-aos="zoom-in" data-aos-delay="200">
+                        <div class="text-3xl font-bold text-green-300">{{ $aplikasiAktif }}</div>
+                        <div class="text-white/80">Aplikasi Aktif</div>
+                    </div>
+                    <div class="glass-effect rounded-2xl p-4 text-center" data-aos="zoom-in" data-aos-delay="300">
+                        <div class="text-3xl font-bold text-red-300">{{ $aplikasiTidakAktif }}</div>
+                        <div class="text-white/80">Tidak Aktif</div>
+                    </div>
+                    <div class="glass-effect rounded-2xl p-4 text-center" data-aos="zoom-in" data-aos-delay="400">
+                        <div class="text-3xl font-bold text-blue-300">{{ $totalOpd }}</div>
+                        <div class="text-white/80">OPD Terdaftar</div>
                     </div>
                 </div>
+                
+                <!-- Action Buttons -->
+                <div class="flex flex-wrap gap-4">
+                    <a href="{{ route('aplikasi.create') }}" 
+                       class="inline-flex items-center px-8 py-4 bg-white text-blue-600 font-bold rounded-2xl shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300 btn-hover"
+                       data-aos="fade-up" data-aos-delay="400">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                        </svg>
+                        Tambah Aplikasi Baru
+                    </a>
+                    
+                    @auth
+                    <a href="{{ route('admin.dashboard') }}" 
+                       class="inline-flex items-center px-8 py-4 glass-effect border border-white/30 text-white font-semibold rounded-2xl hover:bg-white/10 transition-all duration-300 btn-hover"
+                       data-aos="fade-up" data-aos-delay="500">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                        Dashboard Admin
+                    </a>
+                    @else
+                    <a href="{{ route('login') }}" 
+                       class="inline-flex items-center px-8 py-4 glass-effect border border-white/30 text-white font-semibold rounded-2xl hover:bg-white/10 transition-all duration-300 btn-hover"
+                       data-aos="fade-up" data-aos-delay="500">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
+                        </svg>
+                        Login Admin
+                    </a>
+                    @endauth
+                </div>
             </div>
-            <div class="mt-8 lg:mt-0 lg:ml-8 flex-shrink-0">
-                <a href="{{ route('aplikasi.create') }}" 
-                   class="inline-flex items-center px-6 py-3 bg-white text-blue-600 font-semibold rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
-                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+            
+            <!-- Hero Illustration -->
+            <div class="mt-8 lg:mt-0 lg:ml-12 flex-shrink-0" data-aos="fade-left">
+                <div class="w-80 h-80 glass-effect rounded-full flex items-center justify-center">
+                    <svg class="w-40 h-40 text-white/80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
                     </svg>
-                    Tambah Aplikasi Baru
-                </a>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Filter & Search Section (placeholder for future) -->
-<div class="mb-6">
-    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+<!-- Quick Menu Section -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+    <div class="bg-white rounded-2xl shadow-lg p-6 card-hover" data-aos="fade-up" data-aos-delay="100">
+        <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4">
+            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+            </svg>
+        </div>
+        <h3 class="text-lg font-semibold text-gray-900 mb-2">Lihat Semua Aplikasi</h3>
+        <p class="text-gray-600 text-sm mb-4">Jelajahi daftar lengkap aplikasi yang tersedia</p>
+        <a href="#aplikasi-list" onclick="scrollToElement('aplikasi-list')" class="text-blue-600 text-sm font-medium hover:text-blue-700">
+            Lihat Aplikasi →
+        </a>
+    </div>
+    
+    <div class="bg-white rounded-2xl shadow-lg p-6 card-hover" data-aos="fade-up" data-aos-delay="200">
+        <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-4">
+            <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+            </svg>
+        </div>
+        <h3 class="text-lg font-semibold text-gray-900 mb-2">Daftarkan Aplikasi</h3>
+        <p class="text-gray-600 text-sm mb-4">Tambahkan aplikasi baru ke dalam sistem</p>
+        <a href="{{ route('aplikasi.create') }}" class="text-green-600 text-sm font-medium hover:text-green-700">
+            Daftar Sekarang →
+        </a>
+    </div>
+</div>
+
+<!-- Filter & Search Section -->
+<div class="mb-8" id="aplikasi-list" data-aos="fade-up">
+    <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div class="flex items-center space-x-4">
                 <h2 class="text-lg font-semibold text-gray-900">Daftar Aplikasi</h2>

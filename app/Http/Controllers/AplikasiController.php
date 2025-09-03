@@ -20,7 +20,14 @@ class AplikasiController extends Controller implements HasMiddleware
     public function index()
     {
         $aplikasis = Aplikasi::with('opd')->latest()->paginate(20);
-        return view('aplikasi.index', compact('aplikasis'));
+        
+        // Statistik untuk halaman utama
+        $totalAplikasi = Aplikasi::count();
+        $aplikasiAktif = Aplikasi::where('status_aplikasi', 'Aktif')->count();
+        $aplikasiTidakAktif = Aplikasi::where('status_aplikasi', 'Tidak Aktif')->count();
+        $totalOpd = \App\Models\Opd::count();
+        
+        return view('aplikasi.index', compact('aplikasis', 'totalAplikasi', 'aplikasiAktif', 'aplikasiTidakAktif', 'totalOpd'));
     }
 
     public function create()
@@ -36,6 +43,7 @@ class AplikasiController extends Controller implements HasMiddleware
             'nama_aplikasi' => 'required|string|max:255',
             'deskripsi_singkat' => 'required|string',
             'alamat_domain' => 'nullable|url',
+            'server_type' => 'nullable|in:Load-Balance,WHM',
             'jenis_aplikasi' => 'required|in:Aplikasi Khusus/Daerah,Aplikasi Pusat/Umum,Aplikasi Lainnya',
             'status_aplikasi' => 'required|in:Aktif,Tidak Aktif',
             'penyebab_tidak_aktif' => 'nullable|string',
@@ -67,6 +75,7 @@ class AplikasiController extends Controller implements HasMiddleware
             'nama_aplikasi' => 'required|string|max:255',
             'deskripsi_singkat' => 'required|string',
             'alamat_domain' => 'nullable|url',
+            'server_type' => 'nullable|in:Load-Balance,WHM',
             'jenis_aplikasi' => 'required|in:Aplikasi Khusus/Daerah,Aplikasi Pusat/Umum,Aplikasi Lainnya',
             'status_aplikasi' => 'required|in:Aktif,Tidak Aktif',
             'penyebab_tidak_aktif' => 'nullable|string',

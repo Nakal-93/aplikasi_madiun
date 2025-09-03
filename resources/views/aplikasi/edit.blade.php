@@ -65,6 +65,26 @@
                 @enderror
             </div>
 
+            <!-- Server Type (Admin Only) -->
+            @auth
+            <div>
+                <label for="server_type" class="block text-sm font-medium text-gray-700 mb-2">
+                    Tipe Server (Opsional)
+                    <span class="text-sm text-gray-500 font-normal">- Hanya Admin</span>
+                </label>
+                <select id="server_type" 
+                        name="server_type"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('server_type') border-red-500 @enderror">
+                    <option value="">Pilih Tipe Server</option>
+                    <option value="Load-Balance" {{ old('server_type', $aplikasi->server_type) == 'Load-Balance' ? 'selected' : '' }}>Load-Balance</option>
+                    <option value="WHM" {{ old('server_type', $aplikasi->server_type) == 'WHM' ? 'selected' : '' }}>WHM</option>
+                </select>
+                @error('server_type')
+                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
+            @endauth
+
             <!-- Status Aplikasi -->
             <div>
                 <label for="status_aplikasi" class="block text-sm font-medium text-gray-700 mb-2">

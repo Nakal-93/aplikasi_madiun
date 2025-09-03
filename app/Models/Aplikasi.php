@@ -13,6 +13,7 @@ class Aplikasi extends Model
         'nama_aplikasi',
         'deskripsi_singkat',
         'alamat_domain',
+        'server_type',
         'jenis_aplikasi',
         'status_aplikasi',
         'penyebab_tidak_aktif',
