@@ -38,7 +38,7 @@ class AplikasiController extends Controller implements HasMiddleware
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $rules = [
             'opd_id' => 'required|exists:opds,id',
             'nama_aplikasi' => 'required|string|max:255',
             'deskripsi_singkat' => 'required|string',
@@ -46,10 +46,18 @@ class AplikasiController extends Controller implements HasMiddleware
             'server_type' => 'nullable|in:Load-Balance,WHM',
             'jenis_aplikasi' => 'required|in:Aplikasi Khusus/Daerah,Aplikasi Pusat/Umum,Aplikasi Lainnya',
             'status_aplikasi' => 'required|in:Aktif,Tidak Aktif',
-            'penyebab_tidak_aktif' => 'nullable|string',
             'nama_pengelola' => 'required|string|max:255',
             'nomor_wa_pengelola' => 'required|string|max:20',
-        ]);
+        ];
+
+        // Conditional validation: penyebab_tidak_aktif is required when status is "Tidak Aktif"
+        if ($request->status_aplikasi === 'Tidak Aktif') {
+            $rules['penyebab_tidak_aktif'] = 'required|string|max:500';
+        } else {
+            $rules['penyebab_tidak_aktif'] = 'nullable|string|max:500';
+        }
+
+        $validated = $request->validate($rules);
 
         Aplikasi::create($validated);
 
@@ -70,7 +78,7 @@ class AplikasiController extends Controller implements HasMiddleware
 
     public function update(Request $request, Aplikasi $aplikasi)
     {
-        $validated = $request->validate([
+        $rules = [
             'opd_id' => 'required|exists:opds,id',
             'nama_aplikasi' => 'required|string|max:255',
             'deskripsi_singkat' => 'required|string',
@@ -78,10 +86,18 @@ class AplikasiController extends Controller implements HasMiddleware
             'server_type' => 'nullable|in:Load-Balance,WHM',
             'jenis_aplikasi' => 'required|in:Aplikasi Khusus/Daerah,Aplikasi Pusat/Umum,Aplikasi Lainnya',
             'status_aplikasi' => 'required|in:Aktif,Tidak Aktif',
-            'penyebab_tidak_aktif' => 'nullable|string',
             'nama_pengelola' => 'required|string|max:255',
             'nomor_wa_pengelola' => 'required|string|max:20',
-        ]);
+        ];
+
+        // Conditional validation: penyebab_tidak_aktif is required when status is "Tidak Aktif"
+        if ($request->status_aplikasi === 'Tidak Aktif') {
+            $rules['penyebab_tidak_aktif'] = 'required|string|max:500';
+        } else {
+            $rules['penyebab_tidak_aktif'] = 'nullable|string|max:500';
+        }
+
+        $validated = $request->validate($rules);
 
         $aplikasi->update($validated);
 
