@@ -70,7 +70,7 @@
                     Alamat Domain / Link
                 </label>
                 <input type="url" name="alamat_domain" id="alamat_domain"
-                       value="{{ old('alamat_domain') }}"
+                       value="{{ old('alamat_domain', 'https://') }}"
                        class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                        placeholder="https://example.com">
                 @error('alamat_domain')
@@ -134,6 +134,25 @@
                 @error('status_aplikasi')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
+            </div>
+
+            <!-- Penyebab Tidak Aktif (Conditional) -->
+            <div id="penyebab_tidak_aktif_field" class="hidden">
+                <label for="penyebab_tidak_aktif" class="block text-sm font-medium text-gray-700 mb-2">
+                    Penyebab Aplikasi Tidak Aktif <span class="text-red-500">*</span>
+                </label>
+                <textarea name="penyebab_tidak_aktif" id="penyebab_tidak_aktif" rows="3"
+                          class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                          placeholder="Jelaskan penyebab aplikasi tidak aktif...">{{ old('penyebab_tidak_aktif') }}</textarea>
+                @error('penyebab_tidak_aktif')
+                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                @enderror
+                <p class="mt-1 text-sm text-gray-500">
+                    <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    Wajib diisi jika status aplikasi tidak aktif
+                </p>
             </div>
 
             <!-- Nama Pengelola -->
@@ -324,20 +343,46 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     @endif
     
-    // Status Aplikasi functionality
+    // Status Aplikasi functionality - Show/hide penyebab tidak aktif field
     const statusSelect = document.getElementById('status_aplikasi');
-    const penyebabContainer = document.getElementById('penyebab_tidak_aktif_container');
+    const penyebabField = document.getElementById('penyebab_tidak_aktif_field');
+    const penyebabTextarea = document.getElementById('penyebab_tidak_aktif');
+    // Auto ensure https:// prefix for domain input
+    const domainInput = document.getElementById('alamat_domain');
+    if(domainInput){
+        if(domainInput.value.trim() === '') domainInput.value = 'https://';
+        domainInput.addEventListener('focus', () => {
+            if(domainInput.value.trim() === '') domainInput.value = 'https://';
+        });
+        domainInput.addEventListener('blur', () => {
+            const v = domainInput.value.trim();
+            if(v !== '' && !v.startsWith('http://') && !v.startsWith('https://')){
+                domainInput.value = 'https://' + v.replace(/^\/+/, '');
+            }
+        });
+        domainInput.addEventListener('input', () => {
+            if(domainInput.value === '') domainInput.value = 'https://';
+        });
+    }
     
     function togglePenyebabTidakAktif() {
         if (statusSelect.value === 'Tidak Aktif') {
-            penyebabContainer.style.display = 'block';
+            penyebabField.classList.remove('hidden');
+            penyebabTextarea.setAttribute('required', 'required');
         } else {
-            penyebabContainer.style.display = 'none';
+            penyebabField.classList.add('hidden');
+            penyebabTextarea.removeAttribute('required');
+            penyebabTextarea.value = ''; // Clear the field when hidden
         }
     }
     
     statusSelect.addEventListener('change', togglePenyebabTidakAktif);
-    togglePenyebabTidakAktif(); // Check initial state
+    
+    // Check initial state (for old input)
+    @if(old('status_aplikasi') == 'Tidak Aktif')
+        penyebabField.classList.remove('hidden');
+        penyebabTextarea.setAttribute('required', 'required');
+    @endif
 });
 </script>
 @endsection

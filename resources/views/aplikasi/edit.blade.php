@@ -57,7 +57,7 @@
                 <input type="url" 
                        id="alamat_domain" 
                        name="alamat_domain" 
-                       value="{{ old('alamat_domain', $aplikasi->alamat_domain) }}"
+                       value="{{ old('alamat_domain', $aplikasi->alamat_domain ? (Str::startsWith($aplikasi->alamat_domain, ['http://','https://']) ? $aplikasi->alamat_domain : 'https://'.$aplikasi->alamat_domain) : 'https://') }}"
                        placeholder="https://example.com"
                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('alamat_domain') border-red-500 @enderror">
                 @error('alamat_domain')
@@ -353,7 +353,6 @@ document.addEventListener('DOMContentLoaded', function() {
 function togglePenyebabTidakAktif() {
     const statusSelect = document.getElementById('status_aplikasi');
     const penyebabGroup = document.getElementById('penyebab_tidak_aktif_group');
-    
     if (statusSelect.value === 'Tidak Aktif') {
         penyebabGroup.style.display = 'block';
     } else {
@@ -361,5 +360,20 @@ function togglePenyebabTidakAktif() {
         document.getElementById('penyebab_tidak_aktif').value = '';
     }
 }
+
+// Auto ensure https:// prefix for edit domain input
+(function(){
+    const domainInput = document.getElementById('alamat_domain');
+    if(!domainInput) return;
+    const ensureScheme = () => {
+        let v = domainInput.value.trim();
+        if(v !== '' && !v.startsWith('http://') && !v.startsWith('https://')){
+            domainInput.value = 'https://' + v.replace(/^\/+/, '');
+        }
+        if(v === '') domainInput.value = 'https://';
+    };
+    domainInput.addEventListener('blur', ensureScheme);
+    domainInput.addEventListener('focus', () => { if(domainInput.value.trim() === '') domainInput.value = 'https://'; });
+})();
 </script>
 @endsection
