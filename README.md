@@ -90,7 +90,7 @@ Aplikasi ini dilengkapi dengan:
 
 Untuk mengakses fitur admin (edit/hapus aplikasi):
 - **Email**: admin@madiunkab.go.id
-- **Password**: password123
+- **Password**: admin123
 
 ## 📱 Tampilan
 
