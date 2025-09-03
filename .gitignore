@@ -1,3 +1,4 @@
+# Laravel Framework
 *.log
 .DS_Store
 .env
@@ -21,4 +22,37 @@
 /vendor
 Homestead.json
 Homestead.yaml
+Thumbs.db
+
+# Application Specific
+/storage/app/backups/*
+!/storage/app/backups/.gitkeep
+/storage/app/import/*.csv
+!/storage/app/import/.gitkeep
+!/storage/app/import/README_IMPORT.md
+!/storage/app/import/mapping_opd_template.csv
+/storage/logs/*
+!/storage/logs/.gitkeep
+
+# Documentation (temporary files)
+*.tmp.md
+*_backup.md
+*.bak
+
+# Docker & Kubernetes
+docker-compose.override.yml
+k8s/secrets.yaml
+k8s/*-secret.yaml
+kubeconfig
+
+# IDE & OS
+*.swp
+*.swo
+*~
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
