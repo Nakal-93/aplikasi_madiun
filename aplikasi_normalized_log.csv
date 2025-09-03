@@ -1,0 +1,38 @@
+row;field;original_value;normalized_value;catatan
+4;Alamat Domain / Link Aplikasi;tidak ada;https://tidakada.invalid;non-url placeholder + appended to description
+4;Nomor WA Pengelola;0;0000000000;invalid replaced
+8;Alamat Domain / Link Aplikasi;https://www.pajak.go.id/e-billing, https://www.pajak.go.id/e-billing;https://www.pajak.go.id/e-billing;duplicate split & one removed
+16;Alamat Domain / Link Aplikasi;"""server"": ""10.35.19.42:3000/"" ""ktprw"" :localhost:38885/""";server: 10.35.19.42:3000 ktprw :localhost:38885;extracted raw text
+21;Alamat Domain / Link Aplikasi;BKPSDM Kab. Madiun;BKPSDM Kab. Madiun;marked non-url
+29;Alamat Domain / Link Aplikasi;sipd.kemendagri.go.id;https://sipd.kemendagri.go.id;added scheme
+30;Alamat Domain / Link Aplikasi;simata.madiunkab.go.id;https://simata.madiunkab.go.id;added scheme
+31;Alamat Domain / Link Aplikasi;sipd.madiunkab.go.id;https://sipd.madiunkab.go.id;added scheme
+35;Nomor WA Pengelola;0;0000000000;invalid replaced
+36;Nomor WA Pengelola;0;0000000000;invalid replaced
+42;Alamat Domain / Link Aplikasi;Aplikasi IKD;Aplikasi IKD;marked non-url
+43;Nomor WA Pengelola;08081330234410;0000000000;too long replaced
+44;Alamat Domain / Link Aplikasi;Aplikasi SIAK;Aplikasi SIAK;marked non-url
+45;Nomor WA Pengelola;08081330234410;0000000000;too long replaced
+46;Alamat Domain / Link Aplikasi;Aplikasi simgaji;Aplikasi simgaji;marked non-url
+65;Alamat Domain / Link Aplikasi;My SAPK;https://myasn.bkn.go.id/;mapped to active successor + source appended
+73;Alamat Domain / Link Aplikasi;http;//flip.id;https://flip.id;fixed scheme typo
+79;Alamat Domain / Link Aplikasi;sumake. jatim.;https://sukma.jatimprov.go.id/;mapped replacement
+83;Alamat Domain / Link Aplikasi;simpeg.madiunkab;https://simpeg.madiunkab.go.id/;assumed domain correction
+89;Alamat Domain / Link Aplikasi;e-prodeskel.kemendagri;https://prodeskel.kemendagri.go.id;assumed canonical
+91;Alamat Domain / Link Aplikasi;e.lomdeskel.jatimprov;https://e.lomdeskel.jatimprov.go.id;assumed canonical
+96;Alamat Domain / Link Aplikasi;Aplikasi yang diinstal;Aplikasi yang diinstal;marked non-url
+101;Alamat Domain / Link Aplikasi;BP.TAPERA;https://tapera.go.id;mapped organization site
+103;Alamat Domain / Link Aplikasi;Aplikasi yang diinstal;Aplikasi yang diinstal;marked non-url
+104;Alamat Domain / Link Aplikasi;E-P3dn;E-P3dn;marked non-url
+109;Alamat Domain / Link Aplikasi;https;//simona.kemendagri;https://simona.kemendagri.go.id;fixed scheme + domain
+110;Alamat Domain / Link Aplikasi;https://absen.amdiunkab.go.id/;https://absen.madiunkab.go.id/;fixed domain typo
+114;Alamat Domain / Link Aplikasi;My.SAPK;https://myasn.bkn.go.id/;mapped to successor
+118;Alamat Domain / Link Aplikasi;simpeg.madiunkab;https://simpeg.madiunkab.go.id/;assumed domain correction
+120;Alamat Domain / Link Aplikasi;Ep3;http://ep3-madiunkab.prototipe.net/login;context based mapping
+124;Alamat Domain / Link Aplikasi;srikandi,arsip;https://srikandi.arsip.go.id/;comma to dot
+125;Alamat Domain / Link Aplikasi;ABSENSI.MADIUN;https://absen.madiunkab.go.id;mapped to known domain
+128;Nomor WA Pengelola;0;0000000000;invalid replaced
+129;Nomor WA Pengelola;0;0000000000;invalid replaced
+133;Alamat Domain / Link Aplikasi;https://www.youtube.com/watch?v=mAJa4SF_VVI;https://www.youtube.com/watch?v=mAJa4SF_VVI;kept (non-website app link)
+139;Alamat Domain / Link Aplikasi;Link khusus FTP;Link khusus FTP;marked non-url
+142;Alamat Domain / Link Aplikasi;192.168.3.100 (local);192.168.3.100 (local);internal ip kept as non-url

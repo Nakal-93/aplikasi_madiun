@@ -161,9 +161,8 @@
                             </div>
                         </div>
                     @else
-                        <!-- Tombol login hanya tampil di desktop; di mobile dipindah ke panel menu agar tidak dobel -->
                         <a href="{{ route('login') }}" 
-                           class="hidden md:inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-all duration-300 shadow-lg hover:shadow-xl">
+                           class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-all duration-300 shadow-lg hover:shadow-xl">
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
                             </svg>
@@ -204,12 +203,6 @@
                         Dashboard Admin
                     </a>
                 @endauth
-                @guest
-                    <a href="{{ route('login') }}" 
-                       class="mobile-menu-link block px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('login') ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100' }} transition-colors duration-200">
-                        Login Admin
-                    </a>
-                @endguest
             </div>
         </div>
     </nav>
