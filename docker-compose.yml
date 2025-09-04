@@ -17,7 +17,7 @@ services:
             DB_PORT: 3306
             DB_DATABASE: pendataan
             DB_USERNAME: wicaksu
-            DB_PASSWORD: J@ck03061997
+            DB_PASSWORD: wicaksu
         # Mount kode + build ke volume bernama, agar bisa dishare ke nginx
         volumes:
             - appdata:/var/www/html

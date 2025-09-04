@@ -78,8 +78,8 @@ RUN printf "<?php echo 'ok';" > public/health
 # Env dasar (APP_KEY idealnya via secret/env compose)
 ENV APP_ENV=production \
     APP_DEBUG=false \
-    APP_NAME=${APP_NAME} \
-    APP_KEY=base64:o5BF5OwE9iIcLq533D1D0h6DgaZhRtWoh67o19WCcus=
+    APP_NAME="pendataan-aplikasi" \
+    APP_KEY="base64:o5BF5OwE9iIcLq533D1D0h6DgaZhRtWoh67o19WCcus="
 
 # Entrypoint: clear & discover DI RUNTIME (hindari Collision dev)
 COPY --chown=root:root docker/entrypoint.sh /usr/local/bin/entrypoint.sh

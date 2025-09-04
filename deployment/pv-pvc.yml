@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: aplikasi-pendataan # ganti ini
+  namespace: db
+spec:
+  accessModes: ["ReadWriteMany"]
+  storageClassName: nfs-rwx
+  resources:
+    requests:
+      storage: 100Gi
