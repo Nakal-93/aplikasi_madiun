@@ -1,0 +1,74 @@
+name: Docker (multi-arch) – pendataan-aplikasi
+
+on:
+  push:
+    branches: ["main"]         # build & push saat push ke main → tag "beta"
+    tags: ["v*"]               # build & push saat rilis bertag semver (v1.2.3)
+  pull_request:                # build saja (tanpa push) untuk PR
+  workflow_dispatch:           # bisa dijalankan manual dari Actions tab
+
+permissions:
+  contents: read
+
+concurrency:
+  group: docker-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # Login ke Docker Hub (set secret di repo: DOCKERHUB_USERNAME, DOCKERHUB_TOKEN)
+      - name: Login to Docker Hub
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # Generate tags & labels otomatis
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: docker.io/wicaksu/pendataan-aplikasi
+          tags: |
+            # Push ke branch main → tag "beta"
+            type=raw,value=beta,enable=${{ startsWith(github.ref, 'refs/heads/main') }}
+            # Tag rilis vX.Y.Z → latest + semver flavors
+            type=raw,value=latest,enable=${{ startsWith(github.ref, 'refs/tags/v') }}
+            type=semver,pattern={{version}},enable=${{ startsWith(github.ref, 'refs/tags/v') }}
+            type=semver,pattern={{major}}.{{minor}},enable=${{ startsWith(github.ref, 'refs/tags/v') }}
+            type=semver,pattern={{major}},enable=${{ startsWith(github.ref, 'refs/tags/v') }}
+            # Selalu tambahkan tag SHA (bermanfaat untuk trace)
+            type=sha
+
+      # Build & (jika bukan PR) push multi-arch, target stage "app"
+      - name: Build and push (multi-arch)
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          target: app
+          platforms: linux/amd64,linux/arm64
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            APP_NAME=pendataan-aplikasi
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Show image digest
+        if: github.event_name != 'pull_request'
+        run: echo "Digest ${{ steps.meta.outputs.tags }} => ${{ steps.build-digest.outputs.digest || 'see build log' }}"
